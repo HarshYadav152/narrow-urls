@@ -6,8 +6,19 @@ const Narrow = () => {
     const [url, setUrl] = useState("")
     const [narrowUrl, setNarrowUrl] = useState("")
     const [generated, setGenerated] = useState("")
+    const [loading, setLoading] = useState("Generate")
+    
+    useEffect(() => {
+        if (generated) {
+            console.log("generated url : ", generated);
+            setLoading('Generate');
+            setUrl('');
+            setNarrowUrl('');
+        }
+    }, [generated]);
 
     const generate = () => {
+        setLoading("Generating...")
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -28,19 +39,17 @@ const Narrow = () => {
             .then((result) => {
                 setGenerated(`${process.env.NEXT_PUBLIC_HOST}/${narrowUrl}`)
                 // console.log("generated url : ",generated)
-                setUrl("")
-                setNarrowUrl("")
+                // setUrl("")
+                // setNarrowUrl("")
                 // console.log(result)
                 alert(result.message)
             })
-            .catch((error) => console.error(error));
+            .catch((error) => console.error(error))
+            .finally(()=>{
+                setLoading('Generate');
+            })
     }
 
-    useEffect(() => {
-        if (generated) {
-            console.log("generated url : ", generated);
-        }
-    }, [generated]);
     return (
         <>
             <div className='body-bg'></div>
@@ -48,9 +57,9 @@ const Narrow = () => {
                 <div className='mx-auto max-w-xl my-10 p-8 bg-slate-800 rounded-lg flex flex-col gap-4'>
                     <h1 className='font-bold text-2xl'>Narrow your URLs</h1>
                     <div className='flex flex-col gap-3'>
-                        <input className='px-3 py-2 focus:outline-blue-950 rounded-md text-blue-950' type='text' placeholder='Enter your url' onChange={e => { setUrl(e.target.value) }}></input>
-                        <input className='px-3 py-2 focus:outline-blue-950 rounded-md text-blue-950' type='text' placeholder='Enter your preferred narrow URL name' onChange={e => { setNarrowUrl(e.target.value) }}></input>
-                        <button onClick={generate} className='bg-purple-900 shadow-lg p-3 rounded-lg py-1 font-bold my-3'>Narrow</button>
+                        <input className='px-3 py-2 focus:outline-blue-950 rounded-md text-blue-950' type='text' value={url} placeholder='Enter your url' onChange={e => { setUrl(e.target.value) }}/>
+                        <input className='px-3 py-2 focus:outline-blue-950 rounded-md text-blue-950' type='text' value={narrowUrl} placeholder='Enter your preferred narrow URL name' onChange={e => { setNarrowUrl(e.target.value) }}/>
+                        <button onClick={generate} className='bg-purple-900 shadow-lg p-3 rounded-lg py-1 font-bold my-3'>{loading}</button>
                     </div>
                     {generated && <><span className='font-bold text-xl'>Your Narrow link</span>
                         <code><Link href={generated} target="_blank">{generated}</Link></code>
