@@ -10,7 +10,7 @@ export default function Home() {
           <p className="text-2xl font-bold text-cyan-400">Best URLs narrower</p>
           <p className="text-center text-amber-100">Narrow or shorten your long and massy URLs in very easy to learn single line with your keyword</p>
           <div className="list-none">
-            <Link href='/narrow'><button className='bg-purple-900 text-blue-200 shadow-lg m-2 p-3 rounded-lg py-1 font-bold'>Narrower - Try Now</button></Link>
+            <Link href='/narrow'><button className='bg-purple-900 text-blue-200 shadow-lg m-2 p-3 rounded-lg py-1 font-bold'>Narrower - Get it now</button></Link>
             {/* <Link href='/github'><button className='bg-purple-900 shadow-lg m-2 p-3 rounded-lg py-1 font-bold'>Github</button></Link> */}
           </div>
         </div>
